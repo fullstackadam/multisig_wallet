@@ -104,4 +104,13 @@ contract('Wallet', (accounts) => {
             'Transfer has already been sent!'
         );
     });
+
+    it('should NOT approve transfer twice', async () => {
+        await wallet.createTransfer(100, accounts[6], {from: accounts[0]});
+        await wallet.approveTransfer(0, {from: accounts[0]});
+        await expectRevert(
+            wallet.approveTransfer(0, {from: accounts[0]}),
+            'Cannot approve transfer more than once!'
+        );
+    });
 });
