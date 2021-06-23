@@ -73,4 +73,17 @@ contract('Wallet', (accounts) => {
         assert(transfers[0].sent === false);
         assert(balance === '1000');
     });
+
+    it('should send transfer if quorum reached', async () => {
+        const balanceBefore = web3.utils.toBN(
+            await web3.eth.getBalance(accounts[6])
+        );
+        await wallet.createTransfer(100, accounts[6], {from: accounts[0]});
+        await wallet.approveTransfer(0, {from: accounts[0]});
+        await wallet.approveTransfer(0, {from: accounts[1]});
+        const balanceAfter = web3.utils.toBN(
+            await web3.eth.getBalance(accounts[6])
+        );
+        assert(balanceAfter.sub(balanceBefore).toNumber() === 100);
+    });
 });
