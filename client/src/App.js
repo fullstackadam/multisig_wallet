@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getWeb3, getWallet } from './utils.js';
 import Header from './Header.js';
-import NewTransfer from "./NewTransfer.js";
+import NewTransfer from './NewTransfer.js';
 import TransferList from './TransferList.js';
 
 function App() {

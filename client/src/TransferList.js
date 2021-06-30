@@ -32,3 +32,5 @@ function TransferList({transfers, approveTransfer}) {
         </div>
     );
 }
+
+export default TransferList;
