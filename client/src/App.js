@@ -31,16 +31,26 @@ function App() {
     init();
   }, []);
 
-  const createTransfer = transfer => {
-    wallet.methods
-      .createTransfer(transfer.amount, transfer.to)
-      .send({from: accounts[0]});
+  const refreshTransfers = async () => {
+    setTransfers(
+      [...await wallet.methods.getTransfers().call()]
+    );
   };
 
-  const approveTransfer = transferId => {
-    wallet.methods
+  const createTransfer = async transfer => {
+    await wallet.methods
+      .createTransfer(transfer.amount, transfer.to)
+      .send({from: accounts[0]});
+    
+    refreshTransfers();
+  };
+
+  const approveTransfer = async transferId => {
+    await wallet.methods
       .approveTransfer(transferId)
       .send({from: accounts[0]});
+
+    refreshTransfers();
   };
 
   if ( typeof web3 === 'undefined' 
